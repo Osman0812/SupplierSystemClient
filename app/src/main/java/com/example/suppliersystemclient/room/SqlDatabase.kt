@@ -41,11 +41,9 @@ abstract class SqlDatabase : RoomDatabase() {
 
 val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        // Drop the old tables
         database.execSQL("DROP TABLE IF EXISTS Suppliers")
         database.execSQL("DROP TABLE IF EXISTS SupplierAssignments")
 
-        // Create new tables
         database.execSQL("""
             CREATE TABLE IF NOT EXISTS Suppliers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

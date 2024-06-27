@@ -14,19 +14,14 @@ import kotlinx.coroutines.flow.Flow
 interface SupplierDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSupplier(supplier: Supplier)
-
     @Update
     suspend fun updateSupplier(supplier: Supplier)
-
     @Delete
     suspend fun deleteSupplier(supplier: Supplier)
-
     @Query("SELECT * FROM Suppliers")
     fun getAllSuppliers(): Flow<List<Supplier>>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAssignment(assignment: SupplierAssignment)
-
     @Query("SELECT * FROM SupplierAssignments WHERE month = :month")
     fun getAssignmentsForMonth(month: Int): Flow<List<SupplierAssignment>>
 }

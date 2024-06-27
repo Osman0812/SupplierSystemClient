@@ -5,11 +5,13 @@ import androidx.room.TypeConverter
 class Converters {
     @TypeConverter
     fun fromString(value: String?): List<Int>? {
-        return value?.split(",")?.map { it.toInt() }
+        return value?.takeIf { it.isNotEmpty() }?.split(",")?.mapNotNull {
+            it.toIntOrNull()
+        }
     }
 
     @TypeConverter
-    fun listToString(list: List<Int>?): String? {
+    fun fromArrayList(list: List<Int>?): String? {
         return list?.joinToString(",")
     }
 }
