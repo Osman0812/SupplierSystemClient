@@ -11,13 +11,18 @@ import com.example.suppliersystemclient.data.Supplier
 import com.example.suppliersystemclient.data.SupplierAssignment
 import com.example.suppliersystemclient.util.Converters
 
-@Database(entities = [Supplier::class, SupplierAssignment::class], version = 2, exportSchema = false)
+@Database(
+    entities = [Supplier::class, SupplierAssignment::class],
+    version = 3,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
-abstract class SqlDatabase: RoomDatabase() {
+abstract class SqlDatabase : RoomDatabase() {
     abstract fun supplierDao(): SupplierDao
 
     companion object {
-        @Volatile private var INSTANCE: SqlDatabase? = null
+        @Volatile
+        private var INSTANCE: SqlDatabase? = null
         fun getDatabase(context: Context): SqlDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -25,7 +30,7 @@ abstract class SqlDatabase: RoomDatabase() {
                     SqlDatabase::class.java,
                     "suppliers.db"
                 )
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_2_3)
                     .build()
                 INSTANCE = instance
                 instance
@@ -33,15 +38,19 @@ abstract class SqlDatabase: RoomDatabase() {
         }
     }
 }
-val MIGRATION_1_2 = object : Migration(1, 2) {
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
+        // Drop the old tables
+        database.execSQL("DROP TABLE IF EXISTS Suppliers")
+        database.execSQL("DROP TABLE IF EXISTS SupplierAssignments")
 
-
+        // Create new tables
         database.execSQL("""
             CREATE TABLE IF NOT EXISTS Suppliers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 supplierInfo TEXT NOT NULL,
-                supplierType INTEGER NOT NULL,
+                supplierType TEXT NOT NULL,
                 lastReservedDays TEXT
             )
         """.trimIndent())

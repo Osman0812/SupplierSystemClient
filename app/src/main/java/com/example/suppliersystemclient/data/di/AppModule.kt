@@ -2,7 +2,7 @@ package com.example.suppliersystemclient.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.suppliersystemclient.room.MIGRATION_1_2
+import com.example.suppliersystemclient.room.MIGRATION_2_3
 import com.example.suppliersystemclient.room.SqlDatabase
 import com.example.suppliersystemclient.room.SupplierDao
 import dagger.Module
@@ -24,7 +24,7 @@ object AppModule {
             SqlDatabase::class.java,
             "suppliers.db"
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
             .build()
     }
 

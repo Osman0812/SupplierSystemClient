@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Supplier(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "supplierInfo") val info: String,
-    @ColumnInfo(name = "supplierType") val type: Int,
+    @ColumnInfo(name = "supplierType") val type: String,
     @ColumnInfo(name = "lastReservedDays") val reservedDays: List<Int>?
 )
 

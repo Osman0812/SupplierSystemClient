@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -14,7 +13,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,7 +30,7 @@ fun AddSupplierScreen(
     modifier: Modifier = Modifier
 ) {
     var name by remember { mutableStateOf("") }
-    var type by remember { mutableIntStateOf(1) }
+    var type by remember { mutableStateOf("Contract") }
 
     Column(
         modifier = modifier
@@ -52,11 +50,11 @@ fun AddSupplierScreen(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            RadioButton(selected = type == 1, onClick = { type = 1 })
+            RadioButton(selected = type == "Contract", onClick = { type = "Contract" })
             Text("Only contract")
-            RadioButton(selected = type == 2, onClick = { type = 2 })
+            RadioButton(selected = type == "Stock", onClick = { type = "Stock" })
             Text("Only stock")
-            RadioButton(selected = type == 3, onClick = { type = 3 })
+            RadioButton(selected = type == "Both", onClick = { type = "Both" })
             Text("Both")
         }
         Spacer(modifier = Modifier.height(12.dp))
