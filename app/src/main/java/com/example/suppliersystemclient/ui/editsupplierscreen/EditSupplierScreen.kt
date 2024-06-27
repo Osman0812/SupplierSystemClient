@@ -67,7 +67,7 @@ fun SupplierItem(
         Row {
             Text(text = supplier.info)
             Text(text = supplier.type.toString())
-            Text(text = supplier.reservedDays ?: "")
+            Text(text = supplier.reservedDays?.joinToString(", ") ?: "")
         }
         Row {
             IconButton(onClick = { onEdit(supplier) }) {

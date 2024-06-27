@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.suppliersystemclient.data.Supplier
 import com.example.suppliersystemclient.data.SupplierAssignment
+import com.example.suppliersystemclient.util.Converters
 
 @Database(entities = [Supplier::class, SupplierAssignment::class], version = 2, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class SqlDatabase: RoomDatabase() {
     abstract fun supplierDao(): SupplierDao
 
@@ -32,8 +35,7 @@ abstract class SqlDatabase: RoomDatabase() {
 }
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL("DROP TABLE IF EXISTS Suppliers")
-        database.execSQL("DROP TABLE IF EXISTS SupplierAssignments")
+
 
         database.execSQL("""
             CREATE TABLE IF NOT EXISTS Suppliers (

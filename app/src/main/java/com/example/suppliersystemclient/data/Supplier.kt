@@ -9,7 +9,7 @@ data class Supplier(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "supplierInfo") val info: String,
     @ColumnInfo(name = "supplierType") val type: Int,
-    @ColumnInfo(name = "lastReservedDays") val reservedDays: String?
+    @ColumnInfo(name = "lastReservedDays") val reservedDays: List<Int>?
 )
 
 @Entity(tableName = "SupplierAssignments")
