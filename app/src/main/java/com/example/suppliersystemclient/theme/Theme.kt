@@ -1,4 +1,4 @@
-package com.example.suppliersystemclient.ui.theme
+package com.example.suppliersystemclient.theme
 
 import android.app.Activity
 import android.os.Build
