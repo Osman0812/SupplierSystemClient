@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -25,6 +26,7 @@ import androidx.room.Room
 import com.example.suppliersystemclient.room.SqlDatabase
 import com.example.suppliersystemclient.ui.addsupplierscreen.AddSupplierScreen
 import com.example.suppliersystemclient.ui.editsupplierscreen.EditSupplierScreen
+import com.example.suppliersystemclient.ui.sendtoserverscreen.SendToServerScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,6 +51,7 @@ fun NavHost(navController: NavController, viewModel: SupplierViewModel) {
     ) {
         composable(NavItem.AddSupplier.route) { AddSupplierScreen(viewModel) }
         composable(NavItem.EditSupplier.route) { EditSupplierScreen(viewModel) }
+        composable(NavItem.SendToServer.route) { SendToServerScreen(viewModel) }
     }
 }
 
@@ -69,6 +72,7 @@ fun BottomNavBar(navController: NavController) {
     val items = listOf(
         NavItem.AddSupplier,
         NavItem.EditSupplier,
+        NavItem.SendToServer
     )
 
     BottomAppBar {
@@ -98,5 +102,6 @@ sealed class NavItem(val title: String, val icon: ImageVector, val route: String
 
     object AddSupplier : NavItem("Add", Icons.Default.Add, "addSupplier")
     object EditSupplier : NavItem("Edit", Icons.Default.Edit, "editSupplier")
+    object SendToServer : NavItem("Send", Icons.Default.Send, "sendToServer")
 
 }
