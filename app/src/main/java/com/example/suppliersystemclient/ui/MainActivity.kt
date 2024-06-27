@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -23,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.suppliersystemclient.room.SqlDatabase
 import com.example.suppliersystemclient.ui.addsupplierscreen.AddSupplierScreen
+import com.example.suppliersystemclient.ui.editsupplierscreen.EditSupplierScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,6 +48,7 @@ fun NavHost(navController: NavController, viewModel: SupplierViewModel) {
         startDestination = NavItem.AddSupplier.route
     ) {
         composable(NavItem.AddSupplier.route) { AddSupplierScreen(viewModel) }
+        composable(NavItem.EditSupplier.route) { EditSupplierScreen(viewModel) }
     }
 }
 
@@ -64,7 +67,8 @@ fun MainScreen(viewModel: SupplierViewModel) {
 @Composable
 fun BottomNavBar(navController: NavController) {
     val items = listOf(
-        NavItem.AddSupplier
+        NavItem.AddSupplier,
+        NavItem.EditSupplier,
     )
 
     BottomAppBar {
@@ -93,5 +97,6 @@ fun BottomNavBar(navController: NavController) {
 sealed class NavItem(val title: String, val icon: ImageVector, val route: String) {
 
     object AddSupplier : NavItem("Add", Icons.Default.Add, "addSupplier")
+    object EditSupplier : NavItem("Edit", Icons.Default.Edit, "editSupplier")
 
 }
