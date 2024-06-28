@@ -31,7 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.suppliersystemclient.data.Supplier
+import com.example.suppliersystemclient.data.model.Supplier
 import com.example.suppliersystemclient.ui.SupplierViewModel
 import com.example.suppliersystemclient.ui.component.CustomButton
 import com.example.suppliersystemclient.ui.component.CustomTextField

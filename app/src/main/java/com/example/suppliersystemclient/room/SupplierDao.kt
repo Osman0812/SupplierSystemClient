@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.suppliersystemclient.data.Supplier
-import com.example.suppliersystemclient.data.SupplierAssignment
+import com.example.suppliersystemclient.data.model.Supplier
+import com.example.suppliersystemclient.data.model.SupplierAssignment
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,6 +22,4 @@ interface SupplierDao {
     fun getAllSuppliers(): Flow<List<Supplier>>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAssignment(assignment: SupplierAssignment)
-    @Query("SELECT * FROM SupplierAssignments WHERE month = :month")
-    fun getAssignmentsForMonth(month: Int): Flow<List<SupplierAssignment>>
 }

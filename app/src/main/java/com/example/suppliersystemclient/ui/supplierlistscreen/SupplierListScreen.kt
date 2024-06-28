@@ -17,7 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.suppliersystemclient.data.Supplier
+import com.example.suppliersystemclient.data.model.Supplier
 import com.example.suppliersystemclient.ui.SupplierViewModel
 
 @Composable
@@ -59,7 +59,7 @@ fun SupplierItem(
     ) {
         Row {
             Text(text = supplier.info)
-            Text(text = supplier.type.toString())
+            Text(text = supplier.type)
             Text(text = supplier.reservedDays?.joinToString(", ") ?: "")
         }
         Row {

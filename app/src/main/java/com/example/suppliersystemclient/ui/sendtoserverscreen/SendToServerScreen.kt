@@ -1,9 +1,9 @@
 package com.example.suppliersystemclient.ui.sendtoserverscreen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,8 +17,9 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,7 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.suppliersystemclient.data.Supplier
+import androidx.compose.ui.window.Dialog
+import com.example.suppliersystemclient.data.model.Supplier
 import com.example.suppliersystemclient.ui.SupplierViewModel
 import com.example.suppliersystemclient.ui.component.CustomButton
 import com.example.suppliersystemclient.ui.component.CustomTextField
@@ -51,8 +53,9 @@ fun SendToServerScreen(viewModel: SupplierViewModel) {
     var isSentClicked by remember {
         mutableStateOf(false)
     }
+    var isDialogOpen by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = assignments) {
-        Log.d("response",assignments.toString())
+        Log.d("response", assignments.toString())
         viewModel.insertAssignmentsToDb(assignments)
     }
     Column(
@@ -64,51 +67,23 @@ fun SendToServerScreen(viewModel: SupplierViewModel) {
     ) {
         Text("Select a supplier to define reserved days")
         LazyColumn(
-            modifier = Modifier.fillMaxHeight(0.4f)
+            modifier = Modifier.fillMaxHeight(0.5f)
         ) {
             items(suppliers) { supplier ->
                 SupplierItem(
                     supplier = supplier,
                     onEdit = {
                         selectedSupplier = supplier
+                        isDialogOpen = true
                     },
                     onDelete = {
-                     
+
                     }
                 )
             }
+
         }
-        selectedSupplier?.let { supplier ->
-            Text("Reserved Days for ${supplier.info}")
-            LazyRow(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                items(10){day->
-                    val isChecked = reservedDaysMap[supplier.id]?.contains(day+1) == true
-                    Checkbox(
-                        checked = isChecked,
-                        onCheckedChange = {
-                            val reservedDays = reservedDaysMap.getOrPut(supplier.id) { mutableSetOf() }
-                            if (isChecked) {
-                                reservedDays.remove(day+1)
-                            } else {
-                                reservedDays.add(day+1)
-                            }
-                            reservedDaysMap[supplier.id] = reservedDays.toMutableSet()
-                        }
-                    )
-                    Text((day+1).toString())
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = {
-                val reservedDays = reservedDaysMap[supplier.id]?.toList() ?: emptyList()
-                viewModel.updateReservedDays(supplier.id, reservedDays)
-            }) {
-                Text("Save Reserved Days")
-            }
-        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
         CustomTextField(
@@ -126,13 +101,16 @@ fun SendToServerScreen(viewModel: SupplierViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
         CustomButton(
             onClick = {
-                isSentClicked = true
-
+                if (serverIp.isNotEmpty() && serverPort.isNotEmpty()) {
+                    isSentClicked = true
+                } else {
+                    Toast.makeText(context, "Please enter ip and port!", Toast.LENGTH_LONG).show()
+                }
             },
             text = "Send"
         )
         LaunchedEffect(key1 = isSentClicked) {
-            if (isSentClicked){
+            if (isSentClicked) {
                 viewModel.sendSuppliersToServer(
                     suppliers.map {
                         it.copy(
@@ -145,5 +123,53 @@ fun SendToServerScreen(viewModel: SupplierViewModel) {
                 isSentClicked = false
             }
         }
+    }
+    if (isDialogOpen && selectedSupplier != null) {
+        Dialog(onDismissRequest = { isDialogOpen = false }) {
+            Surface(
+                shape = MaterialTheme.shapes.medium
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    selectedSupplier?.let { supplier ->
+                        Text("Reserved Days for ${supplier.info}")
+                        LazyRow(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            items(10) { day ->
+                                val isChecked =
+                                    reservedDaysMap[supplier.id]?.contains(day + 1) == true
+                                Checkbox(
+                                    checked = isChecked,
+                                    onCheckedChange = {
+                                        val reservedDays =
+                                            reservedDaysMap.getOrPut(supplier.id) { mutableSetOf() }
+                                        if (isChecked) {
+                                            reservedDays.remove(day + 1)
+                                        } else {
+                                            reservedDays.add(day + 1)
+                                        }
+                                        reservedDaysMap[supplier.id] = reservedDays.toMutableSet()
+                                    }
+                                )
+                                Text((day + 1).toString())
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(onClick = {
+                            val reservedDays = reservedDaysMap[supplier.id]?.toList() ?: emptyList()
+                            viewModel.updateReservedDays(supplier.id, reservedDays)
+                        }) {
+                            Text("Save Reserved Days")
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
 }

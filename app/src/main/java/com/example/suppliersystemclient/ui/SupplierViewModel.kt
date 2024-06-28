@@ -5,9 +5,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.suppliersystemclient.data.Supplier
-import com.example.suppliersystemclient.data.SupplierAssignment
-import com.example.suppliersystemclient.data.service.RetrofitInstance
+import com.example.suppliersystemclient.data.model.Supplier
+import com.example.suppliersystemclient.data.model.SupplierAssignment
 import com.example.suppliersystemclient.room.SupplierDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.client.HttpClient
@@ -16,10 +15,8 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.gson.gson
@@ -27,16 +24,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
 class SupplierViewModel @Inject constructor(
     private val supplierDao: SupplierDao,
-    private val application: Application
+    private val application: Application,
 ) : AndroidViewModel(application) {
 
     private val _suppliers = MutableStateFlow<List<Supplier>>(emptyList())
@@ -82,7 +76,6 @@ class SupplierViewModel @Inject constructor(
         }
     }
     fun sendSuppliersToServer(suppliers: List<Supplier>, serverIp: String, serverPort: Int) {
-
         viewModelScope.launch {
             val client = HttpClient(Android) {
                 install(ContentNegotiation) {
@@ -126,7 +119,6 @@ class SupplierViewModel @Inject constructor(
                         )
                         supplierDao.insertAssignment(supplierAssignment)
                     }
-
                     println("Assignments saved to database.")
                 } else {
                     println("No assignments received.")
