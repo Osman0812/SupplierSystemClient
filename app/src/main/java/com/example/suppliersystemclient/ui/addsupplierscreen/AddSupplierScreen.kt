@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.suppliersystemclient.data.model.Supplier
 import com.example.suppliersystemclient.ui.SupplierViewModel
-import com.example.suppliersystemclient.component.CustomButton
-import com.example.suppliersystemclient.component.CustomTextField
+import com.example.suppliersystemclient.ui.component.CustomButton
+import com.example.suppliersystemclient.ui.component.CustomTextField
 
 @Composable
 fun AddSupplierScreen(

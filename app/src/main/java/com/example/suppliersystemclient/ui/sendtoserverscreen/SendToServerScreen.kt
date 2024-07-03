@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.suppliersystemclient.data.model.Supplier
 import com.example.suppliersystemclient.ui.SupplierViewModel
-import com.example.suppliersystemclient.component.CustomButton
-import com.example.suppliersystemclient.component.CustomTextField
+import com.example.suppliersystemclient.ui.component.CustomButton
+import com.example.suppliersystemclient.ui.component.CustomTextField
 import com.example.suppliersystemclient.ui.editsupplierscreen.SupplierItem
 import com.skydoves.flexible.core.screenHeight
 import java.time.LocalDate

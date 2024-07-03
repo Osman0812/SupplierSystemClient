@@ -1,4 +1,4 @@
-package com.example.suppliersystemclient.component
+package com.example.suppliersystemclient.ui.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
