@@ -34,9 +34,6 @@ fun SupplierListScreen(viewModel: SupplierViewModel) {
         suppliers.forEach { supplier ->
             SupplierItem(
                 supplier = supplier,
-                onEdit = {
-                         // On Edit
-                    },
                 onDelete = {
                     viewModel.deleteSupplier(it)
                 }
@@ -48,7 +45,6 @@ fun SupplierListScreen(viewModel: SupplierViewModel) {
 @Composable
 fun SupplierItem(
     supplier: Supplier,
-    onEdit: (Supplier) -> Unit,
     onDelete: (Supplier) -> Unit
 ) {
     Row(
@@ -63,9 +59,6 @@ fun SupplierItem(
             Text(text = supplier.reservedDays?.joinToString(", ") ?: "")
         }
         Row {
-            IconButton(onClick = { onEdit(supplier) }) {
-                Icon(Icons.Default.Edit, contentDescription = null)
-            }
             IconButton(onClick = { onDelete(supplier) }) {
                 Icon(Icons.Default.Delete, contentDescription = null)
             }
