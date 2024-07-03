@@ -129,7 +129,6 @@ fun SupplierItem(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(text = supplier.info)
-
             Text(text = supplier.type)
             Text(text = supplier.reservedDays?.joinToString(", ") ?: "")
         }
