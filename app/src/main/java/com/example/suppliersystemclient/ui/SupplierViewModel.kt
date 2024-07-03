@@ -87,6 +87,10 @@ class SupplierViewModel @Inject constructor(
             }
             val url = "http://$serverIp:$serverPort/suppliers"
             try {
+                suppliers.map {
+                    Log.d("reserved",it.reservedDays.toString())
+                }
+
                 val response: List<Assignment> = client.post(url) {
                     contentType(ContentType.Application.Json)
                     setBody(suppliers)

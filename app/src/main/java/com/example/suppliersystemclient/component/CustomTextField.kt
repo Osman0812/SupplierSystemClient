@@ -1,4 +1,4 @@
-package com.example.suppliersystemclient.ui.component
+package com.example.suppliersystemclient.component
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon

@@ -97,4 +97,6 @@ dependencies {
     implementation ("io.ktor:ktor-client-logging:$ktorVersion")
     implementation ("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation ("io.ktor:ktor-serialization-gson:$ktorVersion")
+
+    implementation(libs.logback.classic)
 }
